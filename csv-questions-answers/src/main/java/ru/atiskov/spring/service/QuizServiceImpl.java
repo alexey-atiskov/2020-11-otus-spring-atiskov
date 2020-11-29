@@ -7,22 +7,21 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 import ru.atiskov.spring.Main;
 import ru.atiskov.spring.domain.Answer;
-import ru.atiskov.spring.domain.Question;
 import ru.atiskov.spring.domain.Quiz;
 
 public class QuizServiceImpl implements QuizService {
 
     private final String quizName;
+    private final StringToQuizService stringToQuizService;
 
-    public QuizServiceImpl(String quizName) {
+    public QuizServiceImpl(String quizName, StringToQuizService stringToQuizService) {
         this.quizName = quizName;
+        this.stringToQuizService = stringToQuizService;
     }
 
     @Override
@@ -32,30 +31,14 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public Set<Quiz> readQuiz(List<String> qasList) {
-        Set<Quiz> quizSet = new HashSet<>();
-        for (String qasString : qasList) {
-            String[] qasStrings = qasString.split(",");
-            Question question = Question.builder()
-                    .value(qasStrings[0])
-                    .correctAnswer(Answer.builder().value(qasStrings[1]).build())
-                    .build();
-            List<Answer> answerList = new ArrayList<>();
-            for (int i = 2; i < qasStrings.length; i++) {
-                String answer = qasStrings[i];
-                answerList.add(Answer.builder().value(answer).build());
-            }
-            Quiz quiz = Quiz.builder()
-                    .question(question)
-                    .answerList(answerList)
-                    .build();
-            quizSet.add(quiz);
-        }
+    public List<Quiz> readQuizzes(List<String> qasList) {
+        List<Quiz> quizSet = new ArrayList<>();
+        qasList.forEach(s -> quizSet.add(stringToQuizService.getQuiz(s)));
         return quizSet;
     }
 
     @Override
-    public int processQuiz(Set<Quiz> quizzes) {
+    public int processQuiz(List<Quiz> quizzes) {
         int countOfCorrectAnswers = 0;
         Scanner in = new Scanner(System.in);
         System.out.println("Enter number of correct answer:");

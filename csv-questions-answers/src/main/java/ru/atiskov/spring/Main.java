@@ -4,10 +4,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 
-import ru.atiskov.spring.domain.Answer;
 import ru.atiskov.spring.domain.Quiz;
 import ru.atiskov.spring.service.QuizService;
 
@@ -17,7 +15,7 @@ public class Main {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
         QuizService service = context.getBean(QuizService.class);
         List<String> qasList = service.initQuizFromFile();
-        Set<Quiz> quizzes = service.readQuiz(qasList);
+        List<Quiz> quizzes = service.readQuizzes(qasList);
         int countOfCorrectAnswers = service.processQuiz(quizzes);
         System.out.println("Correct answers = " + countOfCorrectAnswers);
         context.close();
