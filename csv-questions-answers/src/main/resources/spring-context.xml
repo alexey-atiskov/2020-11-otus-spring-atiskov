@@ -4,11 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="personDao" class="ru.atiskov.spring.dao.PersonDaoSimple">
+    <bean id="quizService" class="ru.atiskov.spring.service.QuizServiceImpl">
+        <constructor-arg name="quizName" value="quiz.csv"/>
     </bean>
-
-    <bean id="personService" class="ru.atiskov.spring.service.PersonServiceImpl">
-        <constructor-arg name="dao" ref="personDao"/>
-    </bean>
-
 </beans>
