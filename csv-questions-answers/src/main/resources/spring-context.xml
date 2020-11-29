@@ -6,5 +6,9 @@
 
     <bean id="quizService" class="ru.atiskov.spring.service.QuizServiceImpl">
         <constructor-arg name="quizName" value="quiz.csv"/>
+        <constructor-arg name="stringToQuizService" ref="stringToQuizService"/>
+    </bean>
+
+    <bean id="stringToQuizService" class="ru.atiskov.spring.service.StringToQuizServiceImpl">
     </bean>
 </beans>
