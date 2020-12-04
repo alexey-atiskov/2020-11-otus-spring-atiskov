@@ -17,15 +17,15 @@ public class QuizProcessorCL implements QuizProcessor {
         System.out.println("Enter number of correct answer:");
     }
 
-    public void endAskingQuestionsCL() {
+    public void endAskingQuestions() {
         in.close();
     }
 
-    public String getAnswerFromUserCL() {
+    public String getAnswerFromUser() {
         return in.next();
     }
 
-    public void askQuestionCommandLine(Quiz quiz) {
+    public void askQuestion(Quiz quiz) {
         System.out.println(quiz.getQuestion().getValue());
         List<Answer> answerList = quiz.getAnswerList();
         for (int i = 0; i < answerList.size(); i++) {

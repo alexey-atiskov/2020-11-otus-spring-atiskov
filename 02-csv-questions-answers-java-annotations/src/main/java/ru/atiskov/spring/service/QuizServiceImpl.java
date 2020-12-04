@@ -19,6 +19,7 @@ public class QuizServiceImpl implements QuizService {
     private final String quizName;
     private final StringToQuizService stringToQuizService;
     private final QuizProcessor quizProcessor;
+
     @Value("${app.countOfAnswersForSuccess}")
     private int countOfAnswersForSuccess;
 
@@ -48,13 +49,13 @@ public class QuizServiceImpl implements QuizService {
         int countOfCorrectAnswers = 0;
         quizProcessor.startAskingQuestions();
         for (Quiz quiz : quizzes) {
-            quizProcessor.askQuestionCommandLine(quiz);
-            String next = quizProcessor.getAnswerFromUserCL();
+            quizProcessor.askQuestion(quiz);
+            String next = quizProcessor.getAnswerFromUser();
             if (quiz.getQuestion().getCorrectAnswer().getValue().equals(next)) {
                 countOfCorrectAnswers++;
             }
         }
-        quizProcessor.endAskingQuestionsCL();
+        quizProcessor.endAskingQuestions();
         return countOfCorrectAnswers;
     }
 

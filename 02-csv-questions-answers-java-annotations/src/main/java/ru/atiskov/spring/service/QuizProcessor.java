@@ -5,9 +5,9 @@ import ru.atiskov.spring.domain.Quiz;
 public interface QuizProcessor {
     void startAskingQuestions();
 
-    void endAskingQuestionsCL();
+    void endAskingQuestions();
 
-    String getAnswerFromUserCL();
+    String getAnswerFromUser();
 
-    void askQuestionCommandLine(Quiz quiz);
+    void askQuestion(Quiz quiz);
 }
