@@ -4,10 +4,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +35,7 @@ class QuizServiceImplTest {
 
     @Mock
     private QuizProcessor quizProcessorTest;
-    @Mock
+    @Spy
     private StringToQuizService stringToQuizService;
 
     @Value("${app.countOfAnswersForSuccess}")
@@ -43,7 +45,7 @@ class QuizServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        quizService = new QuizServiceImpl(quizName, stringToQuizService, quizProcessorTest);
+        quizService = new QuizServiceImpl("quizTest.csv", stringToQuizService, quizProcessorTest);
     }
 
     @Test
@@ -59,14 +61,17 @@ class QuizServiceImplTest {
     }
 
     @Test
-    void askQuestionsTest() {
+    void askQuestionsTest() throws IOException {
+        List<String> strings = quizService.initQuizFromFile();
+        List<Quiz> quizzes = quizService.readQuizzes(strings);
+
         given(quizProcessorTest.getAnswerFromUser()).willReturn("0");
 
-        quizService.askQuestions(new ArrayList<>());// TODO: how to read from quizTest.csv
+        quizService.askQuestions(quizzes);// TODO: how to pass implementation of getQuiz for stringToQuizService
 
         verify(quizProcessorTest, times(1)).startAskingQuestions();
         verify(quizProcessorTest, times(1)).endAskingQuestions();
-//        verify(quizProcessorTest, times(2)).askQuestion();// TODO: how to check
+        verify(quizProcessorTest, times(2)).askQuestion(any());
 //        countOfCorrectAnswers == 1// TODO: how to check
     }
 }
