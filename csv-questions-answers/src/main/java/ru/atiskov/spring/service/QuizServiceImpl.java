@@ -26,7 +26,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<String> initQuizFromFile() throws IOException {
-        URL resource = Main.class.getClassLoader().getResource(quizName);
+        URL resource = QuizServiceImpl.class.getClassLoader().getResource(quizName);
         return FileUtils.readLines(new File(resource.getPath()), StandardCharsets.UTF_8);
     }
 

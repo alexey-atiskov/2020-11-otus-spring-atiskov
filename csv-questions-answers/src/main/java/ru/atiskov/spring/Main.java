@@ -17,7 +17,6 @@ public class Main {
         List<String> qasList = service.initQuizFromFile();
         List<Quiz> quizzes = service.readQuizzes(qasList);
         int countOfCorrectAnswers = service.processQuiz(quizzes);
-        System.out.println("Correct answers = " + countOfCorrectAnswers);
-        context.close();
+        System.out.println("Correct number of answers is " + countOfCorrectAnswers);
     }
 }
