@@ -1,22 +1,15 @@
 package ru.atiskov.junit.service;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.PropertySource;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import ru.atiskov.spring.domain.Answer;
-import ru.atiskov.spring.domain.Question;
+import ru.atiskov.spring.config.AppProps;
 import ru.atiskov.spring.domain.Quiz;
 import ru.atiskov.spring.service.QuizProcessor;
 import ru.atiskov.spring.service.QuizService;
@@ -25,11 +18,12 @@ import ru.atiskov.spring.service.StringToQuizService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class QuizServiceImplTest {
 
@@ -38,44 +32,37 @@ class QuizServiceImplTest {
     @Mock
     private QuizProcessor quizProcessorTest;
     @Mock
+    private AppProps appProps;
+    @Mock
     private StringToQuizService stringToQuizService;
-
-    @Value("${app.countOfAnswersForSuccess}")
-    private int countOfAnswersForSuccess;
-    @Value("${app.quizName}")
-    private String quizName;// TODO: currently null
 
     @BeforeEach
     void setUp() {
-        quizService = new QuizServiceImpl(null, stringToQuizService, quizProcessorTest);
+        quizService = new QuizServiceImpl(appProps, stringToQuizService, quizProcessorTest);
     }
 
     @Test
-    @Disabled
     void sameSizeQuiz() throws IOException {
         given(stringToQuizService.getQuiz(any())).willReturn(Quiz.builder().build());
-//        given(stringToQuizService.initQuizFromFile(any())).willReturn(Quiz.builder().build());
-//        List<String> qasList = initQuizFromFile();
-//        ArrayList<String> qasList = new ArrayList<>();
-//        qasList.add("0,1,2");
-//        qasList.add("1,2,3");
+        when(appProps.getQuizName()).thenReturn("quizTest.csv");
+
         List<Quiz> quizzes = quizService.readQuizzes();
 
-//        assertEquals(qasList.size(), quizzes.size());
+        assertEquals(2, quizzes.size());
     }
 
     @Test
-    @Disabled
     void askQuestionsTest() throws IOException {
+        when(appProps.getQuizName()).thenReturn("quizTest.csv");
+        given(quizProcessorTest.getAnswerFromUser()).willReturn("0").willReturn("1");
+        given(quizProcessorTest.isCorrectAnswer(any(), eq("0"))).willReturn(true);
+        given(quizProcessorTest.isCorrectAnswer(any(), eq("1"))).willReturn(false);
+
         List<Quiz> quizzes = quizService.readQuizzes();
-
-        given(quizProcessorTest.getAnswerFromUser()).willReturn("0");
-
-        quizService.askQuestions(quizzes);// TODO: how to pass implementation of getQuiz for stringToQuizService
+        quizService.askQuestions(quizzes);
 
         verify(quizProcessorTest, times(1)).startAskingQuestions();
         verify(quizProcessorTest, times(1)).endAskingQuestions(1);
         verify(quizProcessorTest, times(2)).askQuestion(any());
-//        countOfCorrectAnswers == 1// TODO: how to check
     }
 }

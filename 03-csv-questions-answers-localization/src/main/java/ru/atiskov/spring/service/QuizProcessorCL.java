@@ -48,6 +48,11 @@ public class QuizProcessorCL implements QuizProcessor {
         return in.next();
     }
 
+    @Override
+    public boolean isCorrectAnswer(Quiz quiz, String next) {
+        return quiz.isCorrectAnswer(next);
+    }
+
     public void askQuestion(Quiz quiz) {
         System.out.println(getLocalizedMessage(quiz.getQuestion().getValue()));
         List<Answer> answerList = quiz.getAnswerList();

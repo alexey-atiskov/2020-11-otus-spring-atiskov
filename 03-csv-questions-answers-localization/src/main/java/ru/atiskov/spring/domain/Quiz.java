@@ -10,4 +10,8 @@ import lombok.Data;
 public class Quiz {
     private final Question question;
     private final List<Answer> answerList;
+
+    public boolean isCorrectAnswer(String answer) {
+        return question.getCorrectAnswer().getValue().equals(answer);
+    }
 }

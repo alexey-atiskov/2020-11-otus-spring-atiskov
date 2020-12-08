@@ -51,7 +51,7 @@ public class QuizServiceImpl implements QuizService {
         for (Quiz quiz : quizzes) {
             quizProcessor.askQuestion(quiz);
             String next = quizProcessor.getAnswerFromUser();
-            if (quiz.getQuestion().getCorrectAnswer().getValue().equals(next)) {
+            if (quizProcessor.isCorrectAnswer(quiz, next)) {
                 countOfCorrectAnswers++;
             }
         }

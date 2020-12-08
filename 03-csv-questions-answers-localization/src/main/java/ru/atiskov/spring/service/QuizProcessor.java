@@ -9,5 +9,7 @@ public interface QuizProcessor {
 
     String getAnswerFromUser();
 
+    boolean isCorrectAnswer(Quiz quiz, String next);
+
     void askQuestion(Quiz quiz);
 }
