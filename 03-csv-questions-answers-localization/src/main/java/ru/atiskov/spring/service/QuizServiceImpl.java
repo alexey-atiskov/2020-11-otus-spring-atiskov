@@ -2,6 +2,7 @@ package ru.atiskov.spring.service;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -11,28 +12,27 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.atiskov.spring.config.AppProps;
 import ru.atiskov.spring.domain.Quiz;
 
 @Service
 public class QuizServiceImpl implements QuizService {
 
-    private final String quizName;
     private final StringToQuizService stringToQuizService;
     private final QuizProcessor quizProcessor;
-    private final int countOfAnswersForSuccess;
 
-    public QuizServiceImpl(@Value("${app.quizName}") String quizName,
-                           @Value("${app.countOfAnswersForSuccess}") int countOfAnswersForSuccess,
+    private final AppProps props;
+
+    public QuizServiceImpl(AppProps props,
                            StringToQuizService stringToQuizService,
                            QuizProcessor quizProcessor) {
-        this.quizName = quizName;
+        this.props = props;
         this.stringToQuizService = stringToQuizService;
         this.quizProcessor = quizProcessor;
-        this.countOfAnswersForSuccess = countOfAnswersForSuccess;
     }
 
     private List<String> initQuizFromFile() throws IOException {
-        URL resource = QuizServiceImpl.class.getClassLoader().getResource(quizName);
+        URL resource = QuizServiceImpl.class.getClassLoader().getResource(props.getQuizName());
         return FileUtils.readLines(new File(resource.getPath()), StandardCharsets.UTF_8);
     }
 
@@ -45,7 +45,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public int askQuestions(List<Quiz> quizzes) {
+    public void askQuestions(List<Quiz> quizzes) {
         int countOfCorrectAnswers = 0;
         quizProcessor.startAskingQuestions();
         for (Quiz quiz : quizzes) {
@@ -55,14 +55,12 @@ public class QuizServiceImpl implements QuizService {
                 countOfCorrectAnswers++;
             }
         }
-        quizProcessor.endAskingQuestions();
-        return countOfCorrectAnswers;
+        quizProcessor.endAskingQuestions(countOfCorrectAnswers);
     }
 
     @Override
     public void processQuiz() throws IOException {
         List<Quiz> quizzes = readQuizzes();
-        int countOfCorrectAnswers = askQuestions(quizzes);
-        System.out.println(countOfCorrectAnswers >= countOfAnswersForSuccess ? "You passed" : "You failed");
+        askQuestions(quizzes);
     }
 }

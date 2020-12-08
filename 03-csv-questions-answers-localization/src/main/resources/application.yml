@@ -1,0 +1,4 @@
+app:
+  quizName : "quiz.csv"
+  countOfAnswersForSuccess : 1
+  locale: ru_RU

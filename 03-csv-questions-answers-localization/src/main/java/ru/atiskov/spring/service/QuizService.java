@@ -8,7 +8,7 @@ import ru.atiskov.spring.domain.Quiz;
 public interface QuizService {
     List<Quiz> readQuizzes() throws IOException;
 
-    int askQuestions(List<Quiz> quizzes);
+    void askQuestions(List<Quiz> quizzes);
 
     void processQuiz() throws IOException;
 }

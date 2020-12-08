@@ -5,7 +5,7 @@ import ru.atiskov.spring.domain.Quiz;
 public interface QuizProcessor {
     void startAskingQuestions();
 
-    void endAskingQuestions();
+    void endAskingQuestions(int countOfCorrectAnswers);
 
     String getAnswerFromUser();
 

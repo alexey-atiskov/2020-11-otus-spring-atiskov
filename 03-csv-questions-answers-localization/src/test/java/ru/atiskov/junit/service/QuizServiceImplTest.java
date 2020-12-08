@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.PropertySource;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class QuizServiceImplTest {
 
@@ -45,7 +47,7 @@ class QuizServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        quizService = new QuizServiceImpl("quizTest.csv", 1, stringToQuizService, quizProcessorTest);
+        quizService = new QuizServiceImpl(null, stringToQuizService, quizProcessorTest);
     }
 
     @Test
@@ -72,7 +74,7 @@ class QuizServiceImplTest {
         quizService.askQuestions(quizzes);// TODO: how to pass implementation of getQuiz for stringToQuizService
 
         verify(quizProcessorTest, times(1)).startAskingQuestions();
-        verify(quizProcessorTest, times(1)).endAskingQuestions();
+        verify(quizProcessorTest, times(1)).endAskingQuestions(1);
         verify(quizProcessorTest, times(2)).askQuestion(any());
 //        countOfCorrectAnswers == 1// TODO: how to check
     }
