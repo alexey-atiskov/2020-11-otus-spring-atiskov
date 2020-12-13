@@ -61,7 +61,6 @@ class QuizServiceImplTest {
         List<Quiz> quizzes = quizService.readQuizzes();
         quizService.askQuestions(quizzes);
 
-//        verify(quizProcessorTest, times(1)).startAskingQuestions();
         verify(quizProcessorTest, times(1)).endAskingQuestions(1);
         verify(quizProcessorTest, times(2)).askQuestion(any());
     }

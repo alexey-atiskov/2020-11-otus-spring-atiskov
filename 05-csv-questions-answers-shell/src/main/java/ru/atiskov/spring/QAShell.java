@@ -17,12 +17,9 @@ public class QAShell {
         this.service = service;
     }
 
-//    @ShellMethod(key = "hello-to", value = "Say hello to username")
-//    public String helloTo(@ShellOption({"username", "u"}) String username) throws IOException {
-//        return service.processQuiz();
-//    }
     @ShellMethod(key = "start", value = "Start quiz service")
-    public void start() throws IOException {
-        service.processQuiz();
+    public void start(@ShellOption({"username", "u"}) String userName) throws IOException {
+        service.startAskingQuestions(userName);
+        service.processQuiz(userName);
     }
 }

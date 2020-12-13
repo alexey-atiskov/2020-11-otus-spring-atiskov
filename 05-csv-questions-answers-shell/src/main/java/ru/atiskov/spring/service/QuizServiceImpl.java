@@ -23,6 +23,8 @@ public class QuizServiceImpl implements QuizService {
 
     private final AppProps props;
 
+    private String userName;
+
     public QuizServiceImpl(AppProps props,
                            StringToQuizService stringToQuizService,
                            QuizProcessor quizProcessor) {
@@ -58,9 +60,12 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public void processQuiz() throws IOException {
-        quizProcessor.startAskingQuestions();
+    public void processQuiz(String userName) throws IOException {
         List<Quiz> quizzes = readQuizzes();
         askQuestions(quizzes);
+    }
+
+    public void startAskingQuestions(String userName) {
+        quizProcessor.startAskingQuestions(userName);
     }
 }

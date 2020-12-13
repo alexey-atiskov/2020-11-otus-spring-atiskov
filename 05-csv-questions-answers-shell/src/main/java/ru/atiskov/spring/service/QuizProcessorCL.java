@@ -16,17 +16,15 @@ public class QuizProcessorCL implements QuizProcessor {
     private final MessageSource messageSource;
     private final AppProps props;
 
-    private Scanner in;
+    private final Scanner in;
 
     public QuizProcessorCL(MessageSource messageSource, AppProps props) {
         this.messageSource = messageSource;
         this.props = props;
+        in = new Scanner(System.in);
     }
 
-    public void startAskingQuestions() {
-        in = new Scanner(System.in);
-        System.out.println(getLocalizedMessage("initial.message"));
-        String userName = in.next();
+    public void startAskingQuestions(String userName) {
         System.out.println(getLocalizedMessage("greeting.message", userName));
     }
 

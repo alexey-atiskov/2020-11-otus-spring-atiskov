@@ -10,5 +10,7 @@ public interface QuizService {
 
     void askQuestions(List<Quiz> quizzes);
 
-    void processQuiz() throws IOException;
+    void processQuiz(String userName) throws IOException;
+
+    void startAskingQuestions(String userName);
 }

@@ -3,7 +3,7 @@ package ru.atiskov.spring.service;
 import ru.atiskov.spring.domain.Quiz;
 
 public interface QuizProcessor {
-    void startAskingQuestions();
+    void startAskingQuestions(String userName);
 
     void endAskingQuestions(int countOfCorrectAnswers);
 
