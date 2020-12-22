@@ -14,7 +14,7 @@ import ru.atiskov.spring.domain.Quiz;
 import ru.atiskov.spring.service.QuizProcessor;
 import ru.atiskov.spring.service.QuizService;
 import ru.atiskov.spring.service.QuizServiceImpl;
-import ru.atiskov.spring.service.StringToQuizService;
+import ru.atiskov.spring.service.StringToQuizConverter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,16 +34,16 @@ class QuizServiceImplTest {
     @Mock
     private AppProps appProps;
     @Mock
-    private StringToQuizService stringToQuizService;
+    private StringToQuizConverter stringToQuizConverter;
 
     @BeforeEach
     void setUp() {
-        quizService = new QuizServiceImpl(appProps, stringToQuizService, quizProcessorTest);
+        quizService = new QuizServiceImpl(stringToQuizConverter, quizProcessorTest, appProps);
     }
 
     @Test
     void sameSizeQuiz() throws IOException {
-        given(stringToQuizService.getQuiz(any())).willReturn(Quiz.builder().build());
+        given(stringToQuizConverter.getQuiz(any())).willReturn(Quiz.builder().build());
         when(appProps.getQuizName()).thenReturn("quizTest.csv");
 
         List<Quiz> quizzes = quizService.readQuizzes();

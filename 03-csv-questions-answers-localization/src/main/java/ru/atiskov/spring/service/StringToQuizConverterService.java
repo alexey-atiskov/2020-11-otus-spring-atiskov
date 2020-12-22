@@ -10,7 +10,7 @@ import ru.atiskov.spring.domain.Question;
 import ru.atiskov.spring.domain.Quiz;
 
 @Service
-public class StringToQuizServiceImpl implements StringToQuizService {
+public class StringToQuizConverterService implements StringToQuizConverter {
     private static final int START_CELL_INDEX_FOR_ANSWERS = 2;
 
     @Override
