@@ -30,32 +30,32 @@ public class AuthorDaoJdbc implements AuthorDao {
     @Override
     public void insert(Author author) {
         namedParameterJdbcOperations.update(
-                "insert into authors (`id`, `firstname`, `lastname`, `secondaryname`) " +
-                        "values (:id, :firstname, :lastname, :secondaryname)",
-                Map.of("id", author.getId(),
-                        "firstname", author.getFirstname(),
-                        "lastname",  author.getLastname(),
-                        "secondaryname", author.getSecondaryname()));
+                "insert into authors (`firstname`, `lastname`, `secondaryname`) " +
+                        "values (:firstname, :lastname, :secondaryname)",
+                Map.of("id", author.getAuthId(),
+                        "firstname", author.getFirstName(),
+                        "lastname",  author.getLastName(),
+                        "secondaryname", author.getSecondaryName()));
     }
 
     @Override
     public Author getById(long id) {
-        Map<String, Object> params = Collections.singletonMap("id", id);
+        Map<String, Object> params = Collections.singletonMap("auth_id", id);
         return namedParameterJdbcOperations.queryForObject(
-                "select * from authors where id = :id", params, new AuthorMapper()
+                "select auth_id, firstname, lastname, secondaryname from authors where auth_id = :auth_id", params, new AuthorMapper()
         );
     }
 
     @Override
     public List<Author> getAll() {
-        return namedParameterJdbcOperations.query("select * from authors", new AuthorMapper());
+        return namedParameterJdbcOperations.query("select auth_id, firstname, lastname, secondaryname from authors", new AuthorMapper());
     }
 
     @Override
     public void deleteById(long id) {
-        Map<String, Object> params = Collections.singletonMap("id", id);
+        Map<String, Object> params = Collections.singletonMap("auth_id", id);
         namedParameterJdbcOperations.update(
-                "delete from authors where id = :id", params
+                "delete from authors where auth_id = :auth_id", params
         );
     }
 
@@ -63,11 +63,13 @@ public class AuthorDaoJdbc implements AuthorDao {
 
         @Override
         public Author mapRow(ResultSet resultSet, int i) throws SQLException {
-            long id = resultSet.getLong("id");
+            long id = resultSet.getLong("auth_id");
             String firstName = resultSet.getString("firstname");
             String lastName = resultSet.getString("lastname");
             String secondaryName = resultSet.getString("secondaryname");
-            return new Author(id, firstName, lastName, secondaryName);
+            Author author = new Author(firstName, lastName, secondaryName);
+            author.setAuthId(id);
+            return author;
         }
     }
 }

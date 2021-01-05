@@ -22,10 +22,8 @@ public class JdbcShell {
     @ShellMethod(key = "addb", value = "Add book")
     public void addBookToLibrary(
             @ShellOption({"bookname", "bn"}) String bookName,
-            @ShellOption({"bookid", "bi"}) Long bookId,// TODO auto-increment
             @ShellOption({"authorid", "ai"}) Long authorId,
             @ShellOption({"genreid", "gi"}) Long genreId) {
-        bookDao.insert(new Book(bookId, authorId, genreId, bookName));
-        //TODO check existance author id, and other id's
+        bookDao.insert(new Book(authorId, genreId, bookName));
     }
 }

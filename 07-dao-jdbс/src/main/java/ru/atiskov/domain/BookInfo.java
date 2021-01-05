@@ -5,9 +5,10 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Data
-public class Author {
-    private long authId;
+public class BookInfo {
+    private final String name;
     private final String firstName;
-    private final String lastName;
     private final String secondaryName;
+
+    private String genreName;
 }

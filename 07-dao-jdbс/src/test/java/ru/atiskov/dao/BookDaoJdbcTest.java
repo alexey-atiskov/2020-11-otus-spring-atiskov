@@ -9,7 +9,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import java.util.List;
 
 import ru.atiskov.domain.Book;
-// TODO so many classes =(
+import ru.atiskov.domain.BookInfo;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
@@ -31,19 +32,30 @@ class BookDaoJdbcTest {
 
     @Test
     void insert() {
-        Book expectedBook = new Book(3, 2, 2, "title3");
+        Book expectedBook = new Book(2, 2, "title3");
+        expectedBook.setBookId(4);
 
         bookDao.insert(expectedBook);
 
-        Book actualBook = bookDao.getById(3);
+        Book actualBook = bookDao.getById(4);
         assertThat(actualBook).isEqualTo(expectedBook);
     }
 
     @Test
     void getById() {
-        Book expectedBook = new Book(1, 1, 2, "book1");
+        Book expectedBook = new Book(1, 2, "book1");
+        expectedBook.setBookId(1);
 
         Book actualBook = bookDao.getById(1);
+
+        assertThat(actualBook).isEqualTo(expectedBook);
+    }
+
+    @Test
+    void getBookInfoById() {
+        BookInfo expectedBook = new BookInfo("book1", "alexey", "jurievich");
+
+        BookInfo actualBook = bookDao.getBookInfoById(1);
 
         assertThat(actualBook).isEqualTo(expectedBook);
     }
@@ -56,7 +68,8 @@ class BookDaoJdbcTest {
 
     @Test
     void deleteById() {
-        Book expectedBook = new Book(1, 1, 2, "book1");
+        Book expectedBook = new Book(1, 2, "book1");
+        expectedBook.setBookId(1);
         Book actualBook = bookDao.getById(1);
         assertThat(actualBook).isEqualTo(expectedBook);
 
