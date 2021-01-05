@@ -50,7 +50,7 @@ public class BookDaoJdbc implements BookDao {
     public BookInfo getBookInfoById(long id) {
         Map<String, Object> params = Collections.singletonMap("book_id", id);
         return namedParameterJdbcOperations.queryForObject(
-                "SELECT b.name, a.firstname, a.secondaryname, g.name " +
+                "SELECT b.name, a.firstname, a.secondaryname, g.name AS genre_name " +
                         "FROM books AS b " +
                         "INNER JOIN authors AS a " +
                         "INNER JOIN genres AS g " +
@@ -95,8 +95,8 @@ public class BookDaoJdbc implements BookDao {
             String name = resultSet.getString("name");
             String firstname = resultSet.getString("firstname");
             String secondaryname = resultSet.getString("secondaryname");
-//            String genre = resultSet.getString("g.name");
-            BookInfo bookInfo = new BookInfo(name, firstname, secondaryname);
+            String genre = resultSet.getString("genre_name");
+            BookInfo bookInfo = new BookInfo(name, firstname, secondaryname, genre);
             return bookInfo;
         }
     }

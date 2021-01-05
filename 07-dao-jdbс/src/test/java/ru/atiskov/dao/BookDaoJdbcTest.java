@@ -53,7 +53,7 @@ class BookDaoJdbcTest {
 
     @Test
     void getBookInfoById() {
-        BookInfo expectedBook = new BookInfo("book1", "alexey", "jurievich");
+        BookInfo expectedBook = new BookInfo("book1", "alexey", "jurievich", "humor");
 
         BookInfo actualBook = bookDao.getBookInfoById(1);
 

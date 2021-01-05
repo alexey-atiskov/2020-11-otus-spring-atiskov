@@ -9,6 +9,5 @@ public class BookInfo {
     private final String name;
     private final String firstName;
     private final String secondaryName;
-
-    private String genreName;
+    private final String genreName;
 }
