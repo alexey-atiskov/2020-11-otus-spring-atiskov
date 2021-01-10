@@ -1,10 +1,21 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:librarydb
-    data: data.sql
+    url: jdbc:h2:mem:testdb
+    initialization-mode: always
+    data: test-data.sql
 
-  h2:
-    console:
-      path: /h2-console
-      settings:
-        web-allow-others: true
+  jpa:
+    generate-ddl: false
+    #generate-ddl: true
+    hibernate:
+      ddl-auto: none
+      #ddl-auto: create-drop
+    properties:
+      hibernate:
+        format-sql: true
+
+    #show-sql: true
+
+logging:
+  level:
+    ROOT: ERROR
