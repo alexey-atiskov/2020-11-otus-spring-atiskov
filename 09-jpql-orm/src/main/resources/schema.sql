@@ -19,8 +19,6 @@ CREATE TABLE genres (
 CREATE TABLE books(
     book_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
-    id_author BIGINT,
-    FOREIGN KEY(id_author) REFERENCES authors(auth_id),
     id_genre BIGINT,
     FOREIGN KEY(id_genre) REFERENCES genres(gen_id)
 );
@@ -33,6 +31,13 @@ CREATE TABLE comments (
 CREATE TABLE comments_info (
     id_comment BIGINT,
     FOREIGN KEY(id_comment) REFERENCES comments(comment_id),
+    id_book BIGINT,
+    FOREIGN KEY(id_book) REFERENCES books(book_id)
+);
+
+CREATE TABLE book_authors (
+    id_comment BIGINT,
+    FOREIGN KEY(auth_id) REFERENCES authors(auth_id),
     id_book BIGINT,
     FOREIGN KEY(id_book) REFERENCES books(book_id)
 );
