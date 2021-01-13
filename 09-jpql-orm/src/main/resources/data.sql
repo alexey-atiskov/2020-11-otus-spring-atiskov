@@ -15,5 +15,5 @@ insert into comments_info (`id_comment`, `id_book`) values (1, 1);
 insert into comments_info (`id_comment`, `id_book`) values (2, 1);
 insert into comments_info (`id_comment`, `id_book`) values (3, 2);
 
-insert into book_authors (`auth_id`, `id_book`) values (1, 1);
-insert into book_authors (`auth_id`, `id_book`) values (2, 2);
+insert into book_authors (`id_author`, `id_book`) values (1, 1);
+insert into book_authors (`id_author`, `id_book`) values (2, 2);

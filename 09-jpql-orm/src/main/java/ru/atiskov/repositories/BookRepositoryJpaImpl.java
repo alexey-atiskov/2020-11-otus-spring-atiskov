@@ -39,7 +39,7 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa {
     @Override
     public List<Book> findAll() {
         EntityGraph<?> entityGraph = em.getEntityGraph("book-comments-entity-graph");
-        TypedQuery<Book> query = em.createQuery("select b from Book b join fetch b.genre", Book.class);
+        TypedQuery<Book> query = em.createQuery("select b from Book b "/*join fetch b.genre"*/, Book.class);
         query.setHint("javax.persistence.fetchgraph", entityGraph);
         return query.getResultList();
     }

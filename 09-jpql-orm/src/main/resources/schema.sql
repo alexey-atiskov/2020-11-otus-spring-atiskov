@@ -36,8 +36,8 @@ CREATE TABLE comments_info (
 );
 
 CREATE TABLE book_authors (
-    id_comment BIGINT,
-    FOREIGN KEY(auth_id) REFERENCES authors(auth_id),
+    id_author BIGINT,
+    FOREIGN KEY(id_author) REFERENCES authors(auth_id),
     id_book BIGINT,
     FOREIGN KEY(id_book) REFERENCES books(book_id)
 );
