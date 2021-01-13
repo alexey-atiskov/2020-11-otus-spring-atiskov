@@ -4,16 +4,16 @@ insert into authors (`firstname`, `lastname`, `secondaryname`) values ('putin', 
 insert into genres (`name`) values ('horror');
 insert into genres (`name`) values ('humor');
 
-insert into books (`name`, `id_genre`) values ('book1', 2);
-insert into books (`name`, `id_genre`) values ('book2', 1);
+insert into books (`name`, `gen_id`) values ('book1', 2);
+insert into books (`name`, `gen_id`) values ('book2', 1);
 
 insert into comments (`value`) values ('comment_1');
 insert into comments (`value`) values ('comment_2');
 insert into comments (`value`) values ('comment_3');
 
-insert into comments_info (`id_comment`, `id_book`) values (1, 1);
-insert into comments_info (`id_comment`, `id_book`) values (2, 1);
-insert into comments_info (`id_comment`, `id_book`) values (3, 2);
+insert into comments_info (`comment_id`, `book_id`) values (1, 1);
+insert into comments_info (`comment_id`, `book_id`) values (2, 1);
+insert into comments_info (`comment_id`, `book_id`) values (3, 2);
 
-insert into book_authors (`id_author`, `id_book`) values (1, 1);
-insert into book_authors (`id_author`, `id_book`) values (2, 2);
+insert into book_authors (`auth_id`, `book_id`) values (1, 1);
+insert into book_authors (`auth_id`, `book_id`) values (2, 2);

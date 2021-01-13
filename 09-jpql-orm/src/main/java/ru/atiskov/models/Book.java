@@ -48,7 +48,7 @@ public class Book {
     private List<Author> authors;
 
     @OneToOne(targetEntity = Genre.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_genre")
+    @JoinColumn(name = "gen_id")
     private Genre genre;
 
     @OneToMany(targetEntity = Comment.class, fetch = FetchType.LAZY)
@@ -60,9 +60,9 @@ public class Book {
     private String name;
 
     // used in getBookInfoById
-    public Book(List<Author> authors, Genre genre, String name) {
-        this.authors = authors;
-        this.genre = genre;
-        this.name = name;
-    }
+//    public Book(List<Author> authors, Genre genre, String name) {
+//        this.authors = authors;
+//        this.genre = genre;
+//        this.name = name;
+//    }
 }
