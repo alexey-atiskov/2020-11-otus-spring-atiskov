@@ -35,7 +35,7 @@ public class Comment {
     @Column(name = "value", nullable = false)
     private String value;
 
-    @ManyToOne(targetEntity = Book.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Book.class, fetch = FetchType.EAGER)
     @JoinTable(name = "comments_info", joinColumns = @JoinColumn(name = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     @BatchSize(size = 2)
