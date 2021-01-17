@@ -55,16 +55,6 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa {
     }
 
     @Override
-    public void updateNameById(long id, String name) {
-        Query query = em.createQuery("update Book b " +
-                "set b.name = :name " +
-                "where b.book_id = :id");
-        query.setParameter("name", name);
-        query.setParameter("id", id);
-        query.executeUpdate();
-    }
-
-    @Override
     public void deleteById(long id) {
         Query query = em.createQuery("delete " +
                 "from Book b " +
@@ -74,9 +64,14 @@ public class BookRepositoryJpaImpl implements BookRepositoryJpa {
     }
 
     @Override
-    public List<Book> getBookInfoById() {
+    public void remove(Book book) {
+        em.remove(book);
+    }
+
+    @Override
+    public List<Book> getBookInfos() {
         return em.createQuery(
-                "select new ru.atiskov.dto.Book(b.authors, b.genre, b.name) " +
+                "select new ru.atiskov.models.Book(b.authors, b.genre, b.name) " +
                         "from Book b"
                 , Book.class).getResultList();
     }

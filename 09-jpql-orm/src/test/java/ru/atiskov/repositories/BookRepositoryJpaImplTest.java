@@ -20,7 +20,7 @@ class BookRepositoryJpaImplTest {
 
     private static final int EXPECTED_NUMBER_OF_BOOKS = 3;
     private static final long FIRST_BOOK_ID = 1L;
-    private static final int EXPECTED_QUERIES_COUNT = 4;
+    private static final int EXPECTED_QUERIES_COUNT = 3;
 
     @Autowired
     private BookRepositoryJpaImpl repositoryJpa;
@@ -48,7 +48,15 @@ class BookRepositoryJpaImplTest {
                 .allMatch(s -> !s.getName().equals(""))
                 .allMatch(s -> s.getAuthors() != null && s.getAuthors().size() > 0)
                 .allMatch(s -> s.getGenre() != null)
-                .allMatch(s -> s.getComments() != null && s.getComments().size() > 0);
+                .allMatch(s -> s.getComments() != null)
+                .allMatch((Book s) -> {
+                    if (s.getBookId() != 3) {
+                        return s.getComments().size() > 0;
+                    } else {
+                        return s.getComments().size() == 0;
+                    }
+                })
+        ;
         System.out.println("----------------------------------------------------------------------------------------------------------\n\n\n\n");
         assertThat(sessionFactory.getStatistics().getPrepareStatementCount()).isEqualTo(EXPECTED_QUERIES_COUNT);
     }

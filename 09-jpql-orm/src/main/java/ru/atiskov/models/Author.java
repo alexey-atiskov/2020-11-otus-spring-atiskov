@@ -48,4 +48,19 @@ public class Author {
     @JoinTable(name = "book_authors", joinColumns = @JoinColumn(name = "auth_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> books;
+
+    public Author(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "authId=" + authId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", secondaryName='" + secondaryName + '\'' +
+                ", books=" + books.size() +
+                '}';
+    }
 }

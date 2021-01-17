@@ -60,9 +60,9 @@ public class Book {
     private String name;
 
     // used in getBookInfoById
-//    public Book(List<Author> authors, Genre genre, String name) {
-//        this.authors = authors;
-//        this.genre = genre;
-//        this.name = name;
-//    }
+    public Book(List<Author> authors, Genre genre, String name) {
+        this.authors = authors;
+        this.genre = genre;
+        this.name = name;
+    }
 }

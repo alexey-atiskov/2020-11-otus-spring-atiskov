@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -35,9 +34,18 @@ public class Comment {
     @Column(name = "value", nullable = false)
     private String value;
 
-    @ManyToOne(targetEntity = Book.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "comments_info", joinColumns = @JoinColumn(name = "comment_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
-    @BatchSize(size = 2)
-    private List<Book> books;
+//    @ManyToOne(targetEntity = Book.class, fetch = FetchType.EAGER)
+//    @JoinTable(name = "comments_info", joinColumns = @JoinColumn(name = "comment_id"),
+//            inverseJoinColumns = @JoinColumn(name = "book_id"))
+//    @BatchSize(size = 2)
+//    private List<Book> books;
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "commentId=" + commentId +
+                ", value='" + value + '\'' +
+//                ", books=" + books.size() +
+                '}';
+    }
 }

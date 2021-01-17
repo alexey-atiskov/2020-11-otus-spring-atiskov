@@ -1,18 +1,12 @@
 spring:
   datasource:
     url: jdbc:h2:mem:librarydb
-    initialization-mode: never
-
-#  h2:
-#    console:
-#      path: /h2-console
-#      settings:
-#        web-allow-others: true
+    initialization-mode: always
 
   jpa:
-    generate-ddl: true
+    generate-ddl: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
 
     properties:
       hibernate:
