@@ -40,7 +40,7 @@ public class JdbcShell {
     }
 
     @ShellMethod(key = "getb", value = "Get book info by id")
-    @Transactional
+    @Transactional(readOnly = true)
     public void getBookInfoById(
             @ShellOption({"book id", "bi"}) long bookId) {
         System.out.println("Book info is = " + bookRepositoryJpa.findById(bookId));
