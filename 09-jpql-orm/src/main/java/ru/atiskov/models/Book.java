@@ -4,6 +4,8 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -60,8 +62,8 @@ public class Book {
     private String name;
 
     // used in getBookInfoById
-    public Book(List<Author> authors, Genre genre, String name) {
-        this.authors = authors;
+    public Book(Collection<Author> authors, Genre genre, String name) {
+        this.authors = new ArrayList<>(authors);
         this.genre = genre;
         this.name = name;
     }

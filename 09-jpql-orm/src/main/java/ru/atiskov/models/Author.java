@@ -42,12 +42,12 @@ public class Author {
     @Column(name = "secondaryname", nullable = false)
     private String secondaryName;
 
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 5)
-    @ManyToMany(targetEntity = Book.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "book_authors", joinColumns = @JoinColumn(name = "auth_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private List<Book> books;
+//    @Fetch(FetchMode.SELECT)
+//    @BatchSize(size = 5)
+//    @ManyToMany(targetEntity = Book.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinTable(name = "book_authors", joinColumns = @JoinColumn(name = "auth_id"),
+//            inverseJoinColumns = @JoinColumn(name = "book_id"))
+//    private List<Book> books;
 
     public Author(String firstName) {
         this.firstName = firstName;
@@ -60,7 +60,7 @@ public class Author {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", secondaryName='" + secondaryName + '\'' +
-                ", books=" + books.size() +
+//                ", books=" + books.size() +
                 '}';
     }
 }

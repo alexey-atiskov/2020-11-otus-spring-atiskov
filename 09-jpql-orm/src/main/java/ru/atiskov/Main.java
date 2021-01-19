@@ -11,6 +11,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         ApplicationContext context = SpringApplication.run(Main.class);
-        Console.main(args);
+//        Console.main(args);
     }
 }
