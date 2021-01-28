@@ -1,11 +1,11 @@
 package ru.atiskov.repositories;
 
 import org.hibernate.SessionFactory;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,12 +15,10 @@ import ru.atiskov.models.Book;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@Import(BookRepositoryJpa.class)
 class BookRepositoryJpaTest {
 
-    private static final int EXPECTED_NUMBER_OF_BOOKS = 3;
-    private static final long FIRST_BOOK_ID = 1L;
-    private static final int EXPECTED_QUERIES_COUNT = 3;
+    private static final int EXPECTED_NUMBER_OF_BOOKS = 2;
+    private static final int EXPECTED_QUERIES_COUNT = 6;
 
     @Autowired
     private BookRepositoryJpa repositoryJpa;
@@ -30,8 +28,11 @@ class BookRepositoryJpaTest {
 
     @Test
     void shouldFindExpectedBookById() {
-        Optional<Book> bookOpt = repositoryJpa.findById(FIRST_BOOK_ID);
-        Book expectedBook = em.find(Book.class, FIRST_BOOK_ID);
+        Book book = repositoryJpa.findByName("Borodino");
+        Assertions.assertNotNull(book);
+        long bookId = book.getBookId();
+        Optional<Book> bookOpt = repositoryJpa.findById(bookId);
+        Book expectedBook = em.find(Book.class, bookId);
         assertThat(bookOpt).isPresent().get()
                 .usingRecursiveComparison().isEqualTo(expectedBook);
     }
@@ -50,7 +51,7 @@ class BookRepositoryJpaTest {
                 .allMatch(s -> s.getGenre() != null)
                 .allMatch(s -> s.getComments() != null)
                 .allMatch((Book s) -> {
-                    if (s.getBookId() != 3) {
+                    if (s.getBookId() == 6) {
                         return s.getComments().size() > 0;
                     } else {
                         return s.getComments().size() == 0;
@@ -71,7 +72,7 @@ class BookRepositoryJpaTest {
                 .allMatch(s -> s.getGenre() != null)
                 .allMatch(s -> s.getComments() != null)
                 .allMatch((Book s) -> {
-                    if (s.getBookId() != 3) {
+                    if (s.getBookId() == 6) {
                         return s.getComments().size() > 0;
                     } else {
                         return s.getComments().size() == 0;

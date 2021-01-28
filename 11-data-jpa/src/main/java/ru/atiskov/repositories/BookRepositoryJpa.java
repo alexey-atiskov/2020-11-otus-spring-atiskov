@@ -11,10 +11,10 @@ public interface BookRepositoryJpa extends CrudRepository<Book, Long> {
 
     List<Book> findAll();
 
-    @Query("select new ru.atiskov.models.Book(b.authors, b.genre, b.name) from Book b")
+    @Query("select b from Book b")
     List<Book> getBookInfos();
 
     Book findByAuthors_firstName(String name);
 
-    Book findByName(String borodino);
+    Book findByName(String name);
 }

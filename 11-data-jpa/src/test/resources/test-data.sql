@@ -1,20 +1,24 @@
-insert into authors (`firstname`, `lastname`, `secondaryname`) values ('alexey', 'atiskov', 'jurievich');
-insert into authors (`firstname`, `lastname`, `secondaryname`) values ('putin', 'vladimir', 'vladimirovich');
-insert into genres (`name`) values ('horror');
-insert into genres (`name`) values ('humor');
-insert into comments (`value`) values ('comment_1');
-insert into comments (`value`) values ('comment_2');
-insert into comments (`value`) values ('comment_3');
+CREATE TABLE authors (
+    auth_id bigserial,
+    firstname VARCHAR(255),
+    lastname VARCHAR(255),
+    secondaryname VARCHAR(255),
+    PRIMARY KEY(auth_id)
+);
 
-insert into books (`name`, `gen_id`) values ('book1', 2);
-insert into books (`name`, `gen_id`) values ('book2', 1);
-insert into books (`name`, `gen_id`) values ('book4', 1);
+CREATE TABLE genres (
+    gen_id bigserial PRIMARY KEY,
+    name VARCHAR(255)
+);
 
-insert into comments_info (`comment_id`, `book_id`) values (1, 1);
-insert into comments_info (`comment_id`, `book_id`) values (2, 1);
-insert into comments_info (`comment_id`, `book_id`) values (3, 2);
+CREATE TABLE books(
+    book_id bigserial PRIMARY KEY,
+    name VARCHAR(255),
+    gen_id BIGINT,
+    FOREIGN KEY(gen_id) REFERENCES genres(gen_id)
+);
 
-insert into book_authors (`auth_id`, `book_id`) values (1, 1);
-insert into book_authors (`auth_id`, `book_id`) values (2, 2);
-insert into book_authors (`auth_id`, `book_id`) values (1, 2);
-insert into book_authors (`auth_id`, `book_id`) values (1, 3);
+CREATE TABLE comments (
+    comment_id bigserial PRIMARY KEY,
+    value VARCHAR(255)
+);

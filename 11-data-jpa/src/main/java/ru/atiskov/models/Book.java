@@ -64,7 +64,6 @@ public class Book {
                 ", name='" + name + '\'' +
                 ", genre='" + genre + '\'' +
                 ", authors='" + authors + '\'' +
-                ", comments='" + comments + '\'' + // TODO comment this line to work (failed to lazily initialize a collection of role)
                 '}';
     }
 }
