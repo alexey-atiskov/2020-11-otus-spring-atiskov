@@ -17,7 +17,7 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    public void updateNameById(long id, String name) {
+    public void updateNameById(String id, String name) {
         Optional<Book> bookOptional = bookRepository.findById(id);
         bookOptional.ifPresent(book -> book.setName(name));
     }

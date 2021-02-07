@@ -55,7 +55,7 @@ public class JdbcShell {
 
     @ShellMethod(key = "getb", value = "Get book info by id")
     public void getBookInfoById(
-            @ShellOption({"book id", "bi"}) long bookId) {
+            @ShellOption({"book id", "bi"}) String bookId) {
         System.out.println("Book info is = " + bookRepository.findById(bookId));
     }
 

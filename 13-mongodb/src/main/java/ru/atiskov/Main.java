@@ -1,9 +1,17 @@
 package ru.atiskov;
 
+import com.mongodb.client.MongoDatabase;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
@@ -18,6 +26,7 @@ import ru.atiskov.repositories.CommentRepository;
 import ru.atiskov.repositories.GenreRepository;
 
 @SpringBootApplication
+@EnableMongoRepositories(basePackages = "ru.atiskov.repositories")
 public class Main {
 
     public static void main(String[] args) throws Exception {
@@ -32,9 +41,13 @@ public class Main {
     private AuthorRepository authorRepository;
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     @PostConstruct
-    public void init() throws InterruptedException {
+    public void init() {
+        mongoTemplate.getDb().drop();
+
         Author author1 = new Author("Pushkin");
         authorRepository.save(author1);
         Author author2 = new Author("Lermontov");
@@ -48,22 +61,30 @@ public class Main {
         bookRepository.save(new Book(author2, genre, comment, "Borodino"));
 
         System.out.println("--------");
-        System.out.println(authorRepository.findByFirstName("Pushkin"));
+        System.out.println("Find by firstName" + authorRepository.findByFirstName("Pushkin"));
         System.out.println("--------");
-        System.out.println(genreRepository.findAll());
+        System.out.println("Find by template = " + mongoTemplate.findOne(Query.query(Criteria.where("firstName").is("Pushkin")), Author.class));
         System.out.println("--------");
-        System.out.println(genreRepository.findByName("poem"));
+        System.out.println("Find by repository = " + authorRepository.findOne(Example.of(author1)));
+        System.out.println("--------");
+        System.out.println("All genres:" + genreRepository.findAll());
+        System.out.println("--------");
+        Query query = new Query();
+        query.with(Sort.by(Sort.Direction.ASC, "name"));
+        System.out.println("All genres by template:" + mongoTemplate.find(query, Genre.class));
+        System.out.println("--------");
+        System.out.println("Poem genre:" + genreRepository.findByName("poem"));
         System.out.println("--------");
 
         Book borodino = bookRepository.findByName("Borodino");
-        System.out.println(borodino);
+        System.out.println("Borodino book:" + borodino);
         System.out.println("--------");
 
 //        Book bookPushkin = bookRepository.findByAuthors_firstName("Pushkin");
 //        System.out.println(bookPushkin);
 //        System.out.println("--------");
-//        System.out.println(bookRepository.findById(Long.valueOf(borodino.getBookId())));
-//        System.out.println("--------");
+        System.out.println("Borodino book by id:" + bookRepository.findById(borodino.getBookId()));
+        System.out.println("--------");
 
 
         System.out.println("\n\n\n----------------------------------------------\n\n");

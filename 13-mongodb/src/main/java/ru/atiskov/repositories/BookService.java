@@ -1,5 +1,5 @@
 package ru.atiskov.repositories;
 
 public interface BookService {
-    void updateNameById(long id, String name);
+    void updateNameById(String id, String name);
 }
