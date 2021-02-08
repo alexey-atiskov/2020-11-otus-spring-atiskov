@@ -1,5 +1,6 @@
 package ru.atiskov;
 
+import com.github.cloudyrock.spring.v5.EnableMongock;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
@@ -14,6 +15,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Configuration
+@EnableMongock
 public class MongoConfig {
 
     @Bean

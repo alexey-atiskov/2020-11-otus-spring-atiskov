@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import ru.atiskov.domain.Author;
 
-public interface AuthorRepository extends MongoRepository<Author, String>, QuerydslPredicateExecutor<Author> {
+public interface AuthorRepository extends MongoRepository<Author, String> {
     Author findByFirstName(String pushkin);
 }
