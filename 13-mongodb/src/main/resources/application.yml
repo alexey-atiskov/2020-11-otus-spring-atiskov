@@ -4,7 +4,7 @@ spring:
       database: testDb
 
 mongock:
-  runner-type: "ApplicationRunner" # default
-  #runner-type: "InitializingBean"
+  #runner-type: "ApplicationRunner" # default
+  runner-type: "InitializingBean"
   change-logs-scan-package:
     - ru.atiskov.mongock.changelog

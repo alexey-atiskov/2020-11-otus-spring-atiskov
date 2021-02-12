@@ -1,6 +1,6 @@
 package ru.atiskov;
 
-import com.mongodb.client.MongoDatabase;
+import com.github.cloudyrock.spring.v5.EnableMongock;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 
@@ -26,6 +25,7 @@ import ru.atiskov.repositories.CommentRepository;
 import ru.atiskov.repositories.GenreRepository;
 
 @SpringBootApplication
+@EnableMongock
 @EnableMongoRepositories(basePackages = "ru.atiskov.repositories")
 public class Main {
 
@@ -69,6 +69,8 @@ public class Main {
         System.out.println("--------");
         System.out.println("All genres:" + genreRepository.findAll());
         System.out.println("--------");
+        System.out.println("All comments:" + commentRepository.findAll());
+        System.out.println("--------");
         Query query = new Query();
         query.with(Sort.by(Sort.Direction.ASC, "name"));
         System.out.println("All genres by template:" + mongoTemplate.find(query, Genre.class));
@@ -80,9 +82,6 @@ public class Main {
         System.out.println("Borodino book:" + borodino);
         System.out.println("--------");
 
-//        Book bookPushkin = bookRepository.findByAuthors_firstName("Pushkin");
-//        System.out.println(bookPushkin);
-//        System.out.println("--------");
         System.out.println("Borodino book by id:" + bookRepository.findById(borodino.getBookId()));
         System.out.println("--------");
 

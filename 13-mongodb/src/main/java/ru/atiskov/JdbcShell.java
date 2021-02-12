@@ -53,6 +53,11 @@ public class JdbcShell {
         System.out.println("All books infos are = " + bookRepository.findAll());
     }
 
+    @ShellMethod(key = "geta", value = "Get author infos")
+    public void geAuthorInfos() {
+        System.out.println("All author infos are = " + authorRepository.findAll());
+    }
+
     @ShellMethod(key = "getb", value = "Get book info by id")
     public void getBookInfoById(
             @ShellOption({"book id", "bi"}) String bookId) {

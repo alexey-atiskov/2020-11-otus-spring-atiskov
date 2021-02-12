@@ -1,4 +1,4 @@
-package ru.atiskov.mongock.changelog;
+package ru.atiskov.changelogs;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
@@ -35,4 +35,19 @@ public class DatabaseChangelog {
     public void insertTolkien(AuthorRepository repository) {
         repository.save(new Author("Tolkien"));
     }
+
+    @ChangeSet(order = "004", id = "insertBook", author = "atiskov")
+    public void insertTolkien(GenreRepository genreRepository,
+                              BookRepository bookRepository,
+                              AuthorRepository authorRepository,
+                              CommentRepository commentRepository) {
+        Author author1 = new Author("Pushkin");
+        authorRepository.save(author1);
+        Genre genre = new Genre("poem");
+        genreRepository.save(genre);
+        Comment comment = new Comment("com1");
+        commentRepository.save(comment);
+        bookRepository.save(new Book(author1, genre, comment, "Borodino"));
+    }
 }
+

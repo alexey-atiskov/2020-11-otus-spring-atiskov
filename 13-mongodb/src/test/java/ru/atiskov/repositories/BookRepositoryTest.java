@@ -1,73 +1,63 @@
 package ru.atiskov.repositories;
 
+import com.mongodb.BasicDBObjectBuilder;
+import com.mongodb.DBObject;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@DataJpaTest
+import java.util.Optional;
+
+import ru.atiskov.domain.Author;
+import ru.atiskov.domain.Book;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@DataMongoTest
+@ExtendWith(SpringExtension.class)
 class BookRepositoryTest {
-
-    private static final int EXPECTED_NUMBER_OF_BOOKS = 2;
-    private static final int EXPECTED_QUERIES_COUNT = 6;
 
     @Autowired
     private BookRepository repositoryJpa;
 
     @Autowired
-    private TestEntityManager em;
+    private AuthorRepository repository;
 
-//    @Test
-//    void shouldFindExpectedBookById() {
-//        Book book = repositoryJpa.findByName("Borodino");
-//        Assertions.assertNotNull(book);
-//        long bookId = book.getBookId();
-//        Optional<Book> bookOpt = repositoryJpa.findById(bookId);
-//        Book expectedBook = em.find(Book.class, bookId);
-//        assertThat(bookOpt).isPresent().get()
-//                .usingRecursiveComparison().isEqualTo(expectedBook);
-//    }
-//
-//    @Test
-//    void shouldReturnCorrectBooksListWithAllInfo() {
-//        SessionFactory sessionFactory = em.getEntityManager().getEntityManagerFactory()
-//                .unwrap(SessionFactory.class);
-//        sessionFactory.getStatistics().setStatisticsEnabled(true);
-//
-//        System.out.println("\n\n\n\n----------------------------------------------------------------------------------------------------------");
-//        List<Book> books = repositoryJpa.findAll();
-//        assertThat(books).isNotNull().hasSize(EXPECTED_NUMBER_OF_BOOKS)
-//                .allMatch(s -> !s.getName().equals(""))
-//                .allMatch(s -> s.getAuthors() != null && s.getAuthors().size() > 0)
-//                .allMatch(s -> s.getGenre() != null)
-//                .allMatch(s -> s.getComments() != null)
-//                .allMatch((Book s) -> {
-//                    if (s.getBookId() == 6) {
-//                        return s.getComments().size() > 0;
-//                    } else {
-//                        return s.getComments().size() == 0;
-//                    }
-//                })
-//        ;
-//        System.out.println("----------------------------------------------------------------------------------------------------------\n\n\n\n");
-//        assertThat(sessionFactory.getStatistics().getPrepareStatementCount()).isEqualTo(EXPECTED_QUERIES_COUNT);
-//    }
-//
-//    @Test
-//    void shouldFindAllBooks() {
-//        List<Book> bookInfos = repositoryJpa.getBookInfos();
-//
-//        assertThat(bookInfos).isNotNull().hasSize(EXPECTED_NUMBER_OF_BOOKS)
-//                .allMatch(s -> !s.getName().equals(""))
-//                .allMatch(s -> s.getAuthors() != null && s.getAuthors().size() > 0)
-//                .allMatch(s -> s.getGenre() != null)
-//                .allMatch(s -> s.getComments() != null)
-//                .allMatch((Book s) -> {
-//                    if (s.getBookId() == 6) {
-//                        return s.getComments().size() > 0;
-//                    } else {
-//                        return s.getComments().size() == 0;
-//                    }
-//                })
-//        ;
-//    }
+    @Test
+    public void test(@Autowired MongoTemplate mongoTemplate) {
+        // given
+        DBObject objectToSave = BasicDBObjectBuilder.start()
+                .add("key", "value")
+                .get();
+
+        // when
+        mongoTemplate.save(objectToSave, "collection");
+
+        // then
+        assertThat(mongoTemplate.findAll(DBObject.class, "collection")).extracting("key")
+                .containsOnly("value");
+    }
+
+    @Test
+    void shouldFindExpectedBookById() {
+        Book book = repositoryJpa.findByName("Borodino");
+        Assertions.assertNotNull(book);
+        String bookId = book.getBookId();
+        Optional<Book> bookOpt = repositoryJpa.findById(bookId);
+        assertThat(bookOpt).isNotEmpty();
+    }
+
+    @Test
+    void shouldFindExpectedAuthorById() {
+        Author author = repository.findByFirstName("Repin");
+        Assertions.assertNotNull(author);
+        String authId = author.getAuthId();
+        Optional<Author> bookOpt = repository.findById(authId);
+        assertThat(bookOpt).isNotEmpty();
+    }
 }

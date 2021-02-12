@@ -20,14 +20,11 @@ public class Book {
     @Id
     private String bookId;
 
-    @DBRef//@ManyToMany(targetEntity = Author.class, fetch = FetchType.EAGER)
+    @DBRef
     private List<Author> authors;
 
-    @DBRef//@OneToOne(targetEntity = Genre.class, fetch = FetchType.EAGER)
+    @DBRef
     private Genre genre;
-
-    @DBRef//@OneToMany(targetEntity = Comment.class, fetch = FetchType.LAZY)
-    private List<Comment> comments;
 
     private String name;
 
@@ -47,7 +44,6 @@ public class Book {
         this.authors = List.of(author);
         this.genre = genre;
         this.name = name;
-        this.comments = List.of(comment);
     }
 
     @Override
