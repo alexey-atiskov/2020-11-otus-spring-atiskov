@@ -1,0 +1,10 @@
+spring:
+  data:
+    mongodb:
+      database: testDb
+
+mongock:
+  #runner-type: "ApplicationRunner" # default
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.atiskov.mongock.changelog
