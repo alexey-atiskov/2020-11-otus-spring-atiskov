@@ -8,37 +8,38 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 import ru.atiskov.models.Author;
-import ru.atiskov.repositories.AuthorRepositoryJpa;
+import ru.atiskov.service.AuthorService;
 
 @Controller
 public class AuthorController {
 
-    private final AuthorRepositoryJpa repository;
+    private final AuthorService authorService;
 
     @Autowired
-    public AuthorController(AuthorRepositoryJpa repository) {
-        this.repository = repository;
+    public AuthorController(AuthorService authorService) {
+        this.authorService = authorService;
     }
 
     @GetMapping("/")
     public String listAuthors(Model model) {
-        List<Author> authors = repository.findAll();
+        List<Author> authors = authorService.getAll();
         model.addAttribute("authors", authors);
         return "list";
     }
 
     @GetMapping("/edit")
     public String editAuthor(@RequestParam("id") long id, Model model) {
-        Author author = repository.findById(id).orElseThrow(NotFoundException::new);
+        Author author = authorService.getById(id).orElseThrow(NotFoundException::new);
         model.addAttribute("author", author);
         return "edit";
     }
 
     @PostMapping("/edit")
     public String saveAuthor(Author author, Model model) {
-        Author saved = repository.save(author);
+        Author saved = authorService.save(author);
         model.addAttribute(saved);
 //        return "redirect:/edit?id=" + saved.getAuthId();
         return "redirect:/";
