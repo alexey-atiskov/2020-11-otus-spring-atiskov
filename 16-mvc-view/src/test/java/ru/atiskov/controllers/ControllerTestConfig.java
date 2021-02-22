@@ -8,11 +8,10 @@ import org.springframework.context.annotation.Import;
 import ru.atiskov.service.AuthorService;
 
 @Configuration
-@Import({AuthorService.class})
 public class ControllerTestConfig {
 
     @Bean
-    AuthorService authorService() {
+    public AuthorService authorService() {
         return Mockito.mock(AuthorService.class);
     }
 }
