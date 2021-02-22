@@ -8,8 +8,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class ExceptionController {
 
     @ExceptionHandler(NotFoundException.class)
-    public ModelAndView handleNPE(NullPointerException e) {
-        ModelAndView modelAndView = new ModelAndView("err500"); // err500.html
+    public ModelAndView handle(NotFoundException e) {
+        ModelAndView modelAndView = new ModelAndView("err500");
         modelAndView.addObject("message", e.getMessage());
         return modelAndView;
     }
