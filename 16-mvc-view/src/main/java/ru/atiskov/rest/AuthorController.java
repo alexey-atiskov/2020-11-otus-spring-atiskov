@@ -32,7 +32,7 @@ public class AuthorController {
 
     @GetMapping("/edit")
     public String editAuthor(@RequestParam("id") long id, Model model) {
-        Author author = authorService.getById(id).orElseThrow(NotFoundException::new);
+        Author author = authorService.getById(id).orElseThrow(() -> new NotFoundException("Cannot find by id " + id));
         model.addAttribute("author", author);
         return "edit";
     }
