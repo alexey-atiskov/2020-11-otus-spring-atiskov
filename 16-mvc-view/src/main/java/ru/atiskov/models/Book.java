@@ -38,12 +38,6 @@ public class Book {
 
     private String name;
 
-    public Book(Collection<Author> authors, Genre genre, String name) {
-        this.authors = new ArrayList<>(authors);
-        this.genre = genre;
-        this.name = name;
-    }
-
     public Book(Author author, Genre genre, String name) {
         this.authors = List.of(author);
         this.genre = genre;
