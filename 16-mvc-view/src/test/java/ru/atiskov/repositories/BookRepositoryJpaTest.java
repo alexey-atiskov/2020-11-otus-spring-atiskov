@@ -47,7 +47,7 @@ class BookRepositoryJpaTest {
         List<Book> books = repositoryJpa.findAll();
         assertThat(books).isNotNull().hasSize(EXPECTED_NUMBER_OF_BOOKS)
                 .allMatch(s -> !s.getName().equals(""))
-                .allMatch(s -> s.getAuthors() != null && s.getAuthors().size() > 0)
+                .allMatch(s -> s.getAuthors() != null)
                 .allMatch(s -> s.getGenre() != null)
                 .allMatch(s -> s.getComments() != null)
                 .allMatch((Book s) -> {
@@ -68,7 +68,7 @@ class BookRepositoryJpaTest {
 
         assertThat(bookInfos).isNotNull().hasSize(EXPECTED_NUMBER_OF_BOOKS)
                 .allMatch(s -> !s.getName().equals(""))
-                .allMatch(s -> s.getAuthors() != null && s.getAuthors().size() > 0)
+                .allMatch(s -> s.getAuthors() != null)
                 .allMatch(s -> s.getGenre() != null)
                 .allMatch(s -> s.getComments() != null)
                 .allMatch((Book s) -> {

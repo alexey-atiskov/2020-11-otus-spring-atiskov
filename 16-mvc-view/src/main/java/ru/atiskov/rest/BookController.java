@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import ru.atiskov.models.Author;
 import ru.atiskov.models.Book;
 import ru.atiskov.models.Genre;
 import ru.atiskov.repositories.BookRepositoryJpa;
@@ -42,9 +45,25 @@ public class BookController {
     }
 
     @PostMapping("/editbook")
-    public String saveBook(Book book, Model model) {
-        Book saved = bookRepositoryJpa.save(book);
+    public String saveBook(Author author, Long bookId, Long genId, Model model) {
+        Book book = getBook(author, bookId, genId);
+        Book saved = getBook(book);
         model.addAttribute(saved);
         return "redirect:/books";
+    }
+
+    @Transactional
+    private Book getBook(Book book) {
+        Book saved = bookRepositoryJpa.save(book);
+        return saved;
+    }
+
+    @Transactional
+    private Book getBook(Author author, Long bookId, Long genId) {
+        Book book = bookRepositoryJpa.findById(bookId).orElseThrow(() -> new NotFoundException("Cannot find by id " + bookId));
+        book.setAuthors(author);
+        Genre genre = genreRepositoryJpa.findById(genId).orElseThrow(() -> new NotFoundException("Cannot find by id " + genId));
+        book.setGenre(genre);
+        return book;
     }
 }

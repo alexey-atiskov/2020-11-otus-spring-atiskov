@@ -40,10 +40,10 @@
 
     <div class="row">
         <label for="holder-input">Genre:</label>
-        <select id="genre-input">
-            <option th:each="genre : ${genres}"
-                    th:value="${genre.genId}"
-                    th:text="${genre.name}">genre of book</option>
+        <select id="genre-input" name="genId">
+            <option th:each="value : ${genres}"
+                    th:value="${value.genId}"
+                    th:text="${value.name}">genre of book</option>
         </select>
     </div>
 

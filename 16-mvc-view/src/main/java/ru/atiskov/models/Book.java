@@ -27,8 +27,8 @@ public class Book {
     @GeneratedValue
     private long bookId;
 
-    @ManyToMany(targetEntity = Author.class, fetch = FetchType.EAGER)
-    private List<Author> authors;
+    @OneToOne(targetEntity = Author.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Author authors;
 
     @OneToOne(targetEntity = Genre.class, fetch = FetchType.EAGER)
     private Genre genre;
@@ -39,13 +39,13 @@ public class Book {
     private String name;
 
     public Book(Author author, Genre genre, String name) {
-        this.authors = List.of(author);
+        this.authors = author;
         this.genre = genre;
         this.name = name;
     }
 
     public Book(Author author, Genre genre, Comment comment, String name) {
-        this.authors = List.of(author);
+        this.authors = author;
         this.genre = genre;
         this.name = name;
         this.comments = List.of(comment);
